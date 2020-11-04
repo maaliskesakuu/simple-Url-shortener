@@ -11,10 +11,10 @@ module.exports = mongoose => {
 	const db = mongoose.connection;
 
 	db.on("error", err => {
-		console.log(`An error has occurred while connecting to DB: ${err}`);
+		writeLog(`An error has occurred while connecting to DB: ${err}`);
 	});
 
 	db.on("open", () => {
-		console.log(`Connected to database. `);
+		writeLog('Connected to database');
 	});
 };

@@ -4,8 +4,14 @@ const ShortUrl = require("./models/shortUrl");
 const PORT = process.env.PORT || 5001;
 const app = express();
 const initMongoose = require("./init-mongoose");
+const fs = require("fs");
 
 initMongoose(mongoose);
+
+// Global logger
+const output = fs.createWriteStream("./logfile.log");
+const { Console } = require("console");
+global.writeLog = new Console({ stdout: output, stderr: output }).log;
 
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: false }));
@@ -15,7 +21,7 @@ app.get("/", async (req, res) => {
 		const shortUrls = await ShortUrl.find();
 		res.render("index", { shortUrls: shortUrls });
 	} catch (err) {
-		console.log(err);
+		writeLog(err);
 	}
 });
 
@@ -24,7 +30,7 @@ app.post("/shortUrls", async (req, res) => {
 		await ShortUrl.create({ full: req.body.fullUrl, fullShortened: req.body.fullUrl.substring(0, 50) + '...' });
 		res.redirect("/");
 	} catch (err) {
-		console.log(err);
+		writeLog(err);
 	}
 });
 
@@ -36,11 +42,11 @@ app.get("/:shortUrl", async (req, res) => {
 
 		res.redirect(shortUrl.full);
 	} catch (err) {
-		console.log(err);
+		writeLog(err);
 	}
 });
 
 
 app.listen(PORT, () => {
-	console.log(`Listening on port ${PORT}`);
+	writeLog(`Listening on port ${PORT}`);
 });
