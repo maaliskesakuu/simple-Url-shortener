@@ -46,12 +46,12 @@
 						<% shortUrls.forEach(shortUrl => { %>
 						<tr>
 							<td>
-								<a href="<%= shortUrl.full %>"
+								<a href="<%= shortUrl.full %>" target="_blank" rel="no_opener"
 									><%= shortUrl.fullShortened %></a
 								>
 							</td>
 							<td>
-								<a href="<%= shortUrl.short %>"
+								<a href="<%= shortUrl.short %>" target="_blank" rel="no_opener"
 									><%= shortUrl.short %></a
 								>
 							</td>
