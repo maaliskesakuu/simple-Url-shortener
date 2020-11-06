@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const ShortUrl = require("./models/shortUrl");
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 5000;
 const app = express();
 const initMongoose = require("./init-mongoose");
 const fs = require("fs");
@@ -27,7 +27,7 @@ app.get("/", async (req, res) => {
 
 app.post("/shortUrls", async (req, res) => {
 	try {
-		await ShortUrl.create({ full: req.body.fullUrl, fullShortened: req.body.fullUrl.substring(0, 50) + '...' });
+		await ShortUrl.create({ full: req.body.fullUrl, fullShortened: req.body.fullUrl.substring(0, 40) + '...' });
 		res.redirect("/");
 	} catch (err) {
 		writeLog(err);
